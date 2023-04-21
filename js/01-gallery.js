@@ -1,0 +1,47 @@
+import { galleryItems } from "./gallery-items.js";
+// Change code below this line
+
+// Створення і рендер розмітки на підставі масиву даних galleryItems і наданого шаблону елемента галереї.
+// Реалізація делегування на ul.gallery і отримання url великого зображення.
+// Підключення скрипту і стилів бібліотеки модального вікна basicLightbox.
+// Використовуй CDN сервіс jsdelivr і додай у проект посилання на мініфіковані(.min) файли бібліотеки.
+// Відкриття модального вікна по кліку на елементі галереї.
+// Для цього ознайомся з документацією і прикладами.
+// Заміна значення атрибута src елемента < img > в модальному вікні перед відкриттям.
+// Використовуй готову розмітку модального вікна із зображенням з прикладів бібліотеки basicLightbox.
+
+const gallery = document.querySelector(".gallery");
+for (let i = 0; i < 9; i += 1) {
+  let galleryItem = galleryItems[i];
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  const img = document.createElement("img");
+  li.classList.add("gallery__item");
+  a.classList.add("gallery__link");
+  a.href = galleryItem.original;
+  img.classList.add("gallery__image");
+  img.src = galleryItem.preview;
+  img.dataset.source = galleryItem.original;
+  img.alt = galleryItem.description;
+  a.appendChild(img);
+  li.appendChild(a);
+  gallery.appendChild(li);
+}
+gallery.addEventListener("click", (event) => {
+  event.preventDefault();
+  if (event.target.nodeName !== "IMG") {
+    return;
+  }
+  const urlLargeImage = event.target.parentNode.getAttribute("href");
+  const imageLarge = `<img src="${urlLargeImage}" alt="${event.target.alt}" />`;
+  const instance = basicLightbox.create(imageLarge);
+  instance.show();
+  document.addEventListener("keydown", escapeHandler);
+  function escapeHandler(event) {
+    if (event.key === "Escape") {
+      instance.close();
+      document.removeEventListener("keydown", escapeHandler);
+    }
+  }
+});
+console.log(galleryItems);
