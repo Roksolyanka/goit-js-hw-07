@@ -11,22 +11,29 @@ import { galleryItems } from "./gallery-items.js";
 //  Нехай підпис буде знизу і з'являється через 250 мілісекунд після відкриття зображення.
 
 const gallery = document.querySelector(".gallery");
+const photos = galleryItems
+  .map(
+    (galleryItem) =>
+      `<li class="gallery__item"><a class="gallery__link" href="${galleryItem.original}"><img class="gallery__image" src="${galleryItem.preview}" alt="${galleryItem.description}"></a></li>`
+  )
+  .join("");
+gallery.insertAdjacentHTML("beforeend", photos);
 
-for (let i = 0; i < 9; i += 1) {
-  let galleryItem = galleryItems[i];
-  const li = document.createElement("li");
-  const a = document.createElement("a");
-  const img = document.createElement("img");
-  li.classList.add("gallery__item");
-  a.classList.add("gallery__link");
-  a.href = galleryItem.original;
-  img.classList.add("gallery__image");
-  img.src = galleryItem.preview;
-  img.alt = galleryItem.description;
-  a.appendChild(img);
-  li.appendChild(a);
-  gallery.appendChild(li);
-}
+// for (let i = 0; i < galleryItems.length; i += 1) {
+//   let galleryItem = galleryItems[i];
+//   const li = document.createElement("li");
+//   const a = document.createElement("a");
+//   const img = document.createElement("img");
+//   li.classList.add("gallery__item");
+//   a.classList.add("gallery__link");
+//   a.href = galleryItem.original;
+//   img.classList.add("gallery__image");
+//   img.src = galleryItem.preview;
+//   img.alt = galleryItem.description;
+//   a.appendChild(img);
+//   li.appendChild(a);
+//   gallery.appendChild(li);
+// }
 
 const lightbox = new SimpleLightbox(".gallery a", {
   captions: true,
